@@ -1,9 +1,6 @@
-/**
- * Layer 1 of 3: a lexical guard for run_query input.
- * (Layer 2 = SQLite authorizer callback, Layer 3 = read-only file handle;
- *  see runner.js / child.js.)  This layer exists to give the AI clear,
- * early error messages; it is NOT relied on as the only protection.
- */
+// Layer 1 of 3: a lexical guard for run_query input. It exists to give the model
+// clear, early errors and is not the only protection (layer 2 is the SQLite
+// authorizer, layer 3 the read-only file handle; see child.js).
 
 export class GuardError extends Error {
   constructor(message) {
@@ -23,8 +20,7 @@ const FORBIDDEN_KEYWORDS = new Set([
 ]);
 
 /**
- * Walks the SQL once, honouring SQLite quoting rules, and returns the SQL with
- * every quoted literal/identifier blanked out ("''") so keyword checks cannot be
+ * Blanks every quoted literal/identifier to "''" so keyword checks cannot be
  * fooled by text inside strings. Throws on comments and unterminated quotes.
  */
 function stripQuoted(sql) {
@@ -66,10 +62,7 @@ function stripQuoted(sql) {
   return out;
 }
 
-/**
- * Validates a user-supplied SQL string. Returns the cleaned single statement
- * (trailing semicolon removed) or throws GuardError with an explanation.
- */
+/** Returns the single SELECT statement without its trailing semicolon, or throws GuardError. */
 export function validateSelect(sql) {
   if (typeof sql !== "string") throw new GuardError("sql must be a string.");
   if (sql.length > MAX_SQL_LENGTH) {

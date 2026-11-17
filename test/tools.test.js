@@ -134,7 +134,7 @@ test("defence in depth: even if the lexical guard were bypassed, SQLite itself r
 });
 
 test("the database file handle is genuinely read-only (authorizer aside)", async () => {
-  // Copy-less check: an OS-level read-only open must reject writes even for a second, unguarded handle.
+  // An OS-level read-only open must reject writes even on an unguarded handle.
   const { DatabaseSync } = await import("node:sqlite");
   const db = new DatabaseSync(config.dbPath, { readOnly: true });
   assert.throws(() => db.exec("DELETE FROM orders"), /readonly/i);

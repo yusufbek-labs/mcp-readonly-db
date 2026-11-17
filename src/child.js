@@ -1,7 +1,6 @@
-// Runs inside a short-lived child process (see runner.js). It opens the database
-// READ-ONLY, installs a SQLite authorizer that only permits reading, runs ONE
-// statement, and sends back at most `maxRows` rows. The parent can SIGKILL this
-// process at any moment, which is how query timeouts are enforced.
+// Runs in a short-lived child process (see runner.js) so the parent can SIGKILL it
+// to enforce query timeouts. Opens the database read-only, installs an authorizer
+// that only permits reading, and runs one statement.
 import { DatabaseSync, constants as C } from "node:sqlite";
 
 const MAX_CELL_CHARS = 2000;

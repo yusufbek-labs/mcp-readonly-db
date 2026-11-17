@@ -79,7 +79,7 @@ async function main() {
   const config = loadConfig();
   const server = createServer(config);
   await server.connect(new StdioServerTransport());
-  // stdout belongs to the MCP protocol: log only to stderr.
+  // stdout carries the MCP protocol, so log to stderr only.
   console.error(`mcp-readonly-db ready: db=${config.dbPath} maxRows=${config.maxRows} timeout=${config.timeoutMs}ms audit=${config.auditLogPath}`);
 }
 

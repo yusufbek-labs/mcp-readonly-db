@@ -4,9 +4,8 @@ import { execute, QueryError } from "./runner.js";
 const quoteIdent = (name) => `"${name.replaceAll('"', '""')}"`;
 
 /**
- * The four tool implementations, independent of MCP so they can be unit-tested.
- * Every call (success, rejection or error) is written to the audit log; if the
- * log cannot be written, the result is withheld (fail closed).
+ * The tool implementations, independent of MCP so they can be unit-tested.
+ * Every call is audited; if the log cannot be written the result is withheld.
  */
 export function createTools(config, audit) {
   async function run(tool, input, work) {

@@ -25,10 +25,7 @@ function friendly(message) {
   return `SQL error: ${message}`;
 }
 
-/**
- * Executes one already-validated statement in an isolated child process with a
- * hard timeout. Resolves to { columns, rows, truncated } or rejects QueryError.
- */
+/** Runs one validated statement in a child process with a hard timeout. */
 export function execute({ dbPath, sql, params = [], maxRows, timeoutMs }) {
   if (!fs.existsSync(dbPath)) {
     return Promise.reject(new QueryError(`Database file not found: ${dbPath}. Run "npm run seed" or set MCP_DB_PATH.`, "config"));
